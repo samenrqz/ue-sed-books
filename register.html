@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - UEsed Books</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap" rel="stylesheet">
+
+    <!-- ① Your original stylesheet — untouched -->
+    <link rel="stylesheet" href="style.css">
+
+    <!--
+        ② Validation-only styles.
+        Every rule uses new class names (.val-error, .val-has-error,
+        .val-is-valid, .req-star, .val-shake) so nothing in style.css
+        is overridden or altered. The only additive global rule is
+        `html { scroll-behavior: smooth }`.
+    -->
+    <style>
+        html { scroll-behavior: smooth; }
+
+        /* Red asterisk beside required field labels */
+        .req-star {
+            color: #c0392b;
+            margin-left: 3px;
+            font-weight: 700;
+            font-size: 0.82em;
+            vertical-align: super;
+            line-height: 1;
+            user-select: none;
+        }
+
+        /* Error state — red border + whisper-pink tint */
+        .val-has-error {
+            border-color: #c0392b !important;
+            background-color: rgba(192, 57, 43, 0.035) !important;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        /* Success state — subtle green ring */
+        .val-is-valid {
+            border-color: #27ae60 !important;
+            transition: border-color 0.2s ease;
+        }
+
+        /* Inline error text — hidden by default, animates open */
+        .val-error {
+            display: block;
+            font-size: 0.775rem;
+            color: #c0392b;
+            font-weight: 500;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            letter-spacing: 0.01em;
+            padding-left: 1px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            margin-top: 0;
+            transition:
+                max-height 0.28s ease,
+                opacity    0.28s ease,
+                margin-top 0.28s ease;
+        }
+
+        .val-error.val-error--show {
+            max-height: 36px;
+            opacity: 1;
+            margin-top: 5px;
+        }
+
+        /* Small warning icon prefix */
+        .val-error.val-error--show::before {
+            content: "\26A0\00A0"; /* ⚠ + non-breaking space */
+            font-size: 0.72rem;
+        }
+
+        /* Horizontal shake for invalid fieldsets on submit */
+        @keyframes vShake {
+            0%, 100% { transform: translateX(0); }
+            18%  { transform: translateX(-7px); }
+            36%  { transform: translateX( 7px); }
+            54%  { transform: translateX(-4px); }
+            72%  { transform: translateX( 4px); }
+        }
+        .val-shake {
+            animation: vShake 0.38s ease;
+        }
+
+        /* Disabled submit state while form is posting */
+        .btn-create-account:disabled {
+            opacity: 0.68;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<!-- ③ Original reset-on-load script — kept exactly as it was -->
+<script>
+    window.addEventListener('load', function () {
+        document.getElementById('registerForm').reset();
+    });
+</script>
+
+<body>
+
+    <!-- ═══════════════════════════════════
+         HEADER — 100% original markup
+    ════════════════════════════════════ -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img class="logo-icon" src="images/5.png" alt="UEsed Books Logo">
+                <span>UEsed Books</span>
+            </a>
+
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav" id="nav">
+                <a href="login.php"><b>Home</b></a>
+                <a href="login.php"><b>Listing</b></a>
+                <a href="login.php"><b>About</b></a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="login.php" class="login">🔐 Login</a>
+                <a href="register.html" class="btn-register" style="text-decoration:none;display:inline-block;">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════
+         REGISTER SECTION
+         Original structure preserved 1-to-1.
+         Three minimal, non-breaking additions:
+           • novalidate on <form>           (kills browser popup bubbles)
+           • <span class="req-star">*</>    inside each <legend>
+           • <span class="val-error"></>    after each <input> group
+         Everything else (classes, names,
+         placeholders, IDs) is identical.
+    ════════════════════════════════════ -->
+    <section class="register-section">
+
+        <!-- Decorative dots — original -->
+        <div class="dots register-dots-top-left"></div>
+        <div class="dots register-dots-right"></div>
+        <div class="dots register-dots-bottom-left"></div>
+        <div class="dots register-dots-bottom-right"></div>
+
+        <div class="register-card">
+            <h2 class="register-title">Register Now!</h2>
+            <p class="register-subtitle">Let's get you all set up so you can access your personal account.</p>
+
+            <form class="register-form" id="registerForm"
+                  action="register.php" method="POST"
+                  autocomplete="off"
+                  novalidate>
+
+                <div class="form-row">
+
+                    <fieldset class="form-group" id="fg-firstName">
+                        <legend>First Name<span class="req-star" aria-hidden="true">*</span></legend>
+                        <input type="text" name="first_name" id="firstNameInput"
+                               placeholder="John" autocomplete="off">
+                        <span class="val-error" id="firstNameError"
+                              role="alert" aria-live="polite"></span>
+                    </fieldset>
+
+                    <fieldset class="form-group" id="fg-lastName">
+                        <legend>Last Name<span class="req-star" aria-hidden="true">*</span></legend>
+                        <input type="text" name="last_name" id="lastNameInput"
+                               placeholder="Doe" autocomplete="off">
+                        <span class="val-error" id="lastNameError"
+                              role="alert" aria-live="polite"></span>
+                    </fieldset>
+
+                </div>
+
+                <div class="form-row">
+
+                    <fieldset class="form-group" id="fg-email">
+                        <legend>Email<span class="req-star" aria-hidden="true">*</span></legend>
+                        <input type="email" name="email" id="emailInput"
+                               placeholder="john.doe@gmail.com" autocomplete="off">
+                        <span class="val-error" id="emailError"
+                              role="alert" aria-live="polite"></span>
+                    </fieldset>
+
+                    <fieldset class="form-group" id="fg-studentNum">
+                        <legend>Student Number<span class="req-star" aria-hidden="true">*</span></legend>
+                        <input type="text" name="student_number" id="studentNumInput"
+                               placeholder="20241128734" autocomplete="off">
+                        <span class="val-error" id="studentNumError"
+                              role="alert" aria-live="polite"></span>
+                    </fieldset>
+
+                </div>
+
+                <!-- Password — original password-wrapper structure kept -->
+                <fieldset class="form-group form-group-full" id="fg-password">
+                    <legend>Password<span class="req-star" aria-hidden="true">*</span></legend>
+                    <div class="password-wrapper">
+                        <input type="password" id="passwordInput" name="password"
+                               placeholder="••••••••••••••••••••"
+                               autocomplete="new-password">
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg"
+                                 width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                                <line x1="1" y1="1" x2="23" y2="23"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span class="val-error" id="passwordError"
+                          role="alert" aria-live="polite"></span>
+                </fieldset>
+
+                <!-- Confirm Password — same structure as Password above -->
+                <fieldset class="form-group form-group-full" id="fg-confirmPassword">
+                    <legend>Confirm Password<span class="req-star" aria-hidden="true">*</span></legend>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmPasswordInput" name="confirm_password"
+                               placeholder="••••••••••••••••••••"
+                               autocomplete="new-password">
+                        <button type="button" class="toggle-password" id="toggleConfirmPassword">
+                            <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg"
+                                 width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                                <line x1="1" y1="1" x2="23" y2="23"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span class="val-error" id="confirmPasswordError"
+                          role="alert" aria-live="polite"></span>
+                </fieldset>
+
+                <button type="submit" class="btn-create-account" id="submitBtn">Create account</button>
+
+                <p class="login-link">
+                    Already have an account?
+                    <a href="login.php" class="link-red">Login</a>
+                </p>
+
+            </form>
+        </div>
+    </section>
+
+    <!-- ④ Original script.js (hamburger, eye toggle, etc.) — untouched -->
+    <script src="script.js"></script>
+
+    <!-- ═══════════════════════════════════
+         ⑤ Validation — self-contained IIFE.
+         Uses only .val-* classes, so it
+         cannot conflict with style.css or
+         script.js in any way.
+    ════════════════════════════════════ -->
+    <script>
+    (function () {
+        'use strict';
+
+        /* ── Refs ── */
+        const form            = document.getElementById('registerForm');
+        const submitBtn       = document.getElementById('submitBtn');
+        const firstNameInput  = document.getElementById('firstNameInput');
+        const lastNameInput   = document.getElementById('lastNameInput');
+        const emailInput      = document.getElementById('emailInput');
+        const studentNumInput = document.getElementById('studentNumInput');
+        const passwordInput        = document.getElementById('passwordInput');
+        const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+
+        /* Field map — used for shake + scroll logic */
+        const FIELDS = [
+            { input: firstNameInput,       fgId: 'fg-firstName',       errId: 'firstNameError'       },
+            { input: lastNameInput,        fgId: 'fg-lastName',        errId: 'lastNameError'        },
+            { input: emailInput,           fgId: 'fg-email',           errId: 'emailError'           },
+            { input: studentNumInput,      fgId: 'fg-studentNum',      errId: 'studentNumError'      },
+            { input: passwordInput,        fgId: 'fg-password',        errId: 'passwordError'        },
+            { input: confirmPasswordInput, fgId: 'fg-confirmPassword', errId: 'confirmPasswordError' },
+        ];
+
+        let emailTaken   = false;
+        let isSubmitting = false;
+
+        /* ────────────────────────────────
+           State helpers
+        ──────────────────────────────── */
+        function showErr(errEl, fg, msg) {
+            errEl.textContent = msg;
+            errEl.classList.add('val-error--show');
+            fg.classList.add('val-has-error');
+            fg.classList.remove('val-is-valid');
+        }
+
+        function clearErr(errEl, fg) {
+            errEl.textContent = '';
+            errEl.classList.remove('val-error--show');
+            fg.classList.remove('val-has-error');
+        }
+
+        function markValid(fg) {
+            fg.classList.remove('val-has-error');
+            fg.classList.add('val-is-valid');
+        }
+
+        function triggerShake(fg) {
+            fg.classList.remove('val-shake');
+            void fg.offsetWidth;                      // force reflow to restart animation
+            fg.classList.add('val-shake');
+            fg.addEventListener('animationend',
+                () => fg.classList.remove('val-shake'), { once: true });
+        }
+
+        /* ────────────────────────────────
+           Validators
+           strict=true  → show error even on empty (used at submit)
+           strict=false → silently clear  (used during live typing)
+        ──────────────────────────────── */
+        function vFirstName(strict) {
+            const fg  = document.getElementById('fg-firstName');
+            const err = document.getElementById('firstNameError');
+            const val = firstNameInput.value.trim();
+            if (!val)           { strict ? showErr(err, fg, 'Please fill out this field.') : clearErr(err, fg); return false; }
+            if (/\d/.test(val)) { showErr(err, fg, 'Numbers are not allowed in First Name.'); return false; }
+            clearErr(err, fg); markValid(fg); return true;
+        }
+
+        function vLastName(strict) {
+            const fg  = document.getElementById('fg-lastName');
+            const err = document.getElementById('lastNameError');
+            const val = lastNameInput.value.trim();
+            if (!val)           { strict ? showErr(err, fg, 'Please fill out this field.') : clearErr(err, fg); return false; }
+            if (/\d/.test(val)) { showErr(err, fg, 'Numbers are not allowed in Last Name.'); return false; }
+            clearErr(err, fg); markValid(fg); return true;
+        }
+
+        function vEmail(strict) {
+            const fg  = document.getElementById('fg-email');
+            const err = document.getElementById('emailError');
+            const val = emailInput.value.trim();
+            if (!val)    { emailTaken = false; strict ? showErr(err, fg, 'Please fill out this field.') : clearErr(err, fg); return false; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { showErr(err, fg, 'Please enter a valid email address.'); return false; }
+            if (emailTaken) { showErr(err, fg, 'This email is already registered.'); return false; }
+            clearErr(err, fg); markValid(fg); return true;
+        }
+
+        function vStudentNum(strict) {
+            const fg  = document.getElementById('fg-studentNum');
+            const err = document.getElementById('studentNumError');
+            const val = studentNumInput.value.trim();
+            if (!val)                 { strict ? showErr(err, fg, 'Please fill out this field.') : clearErr(err, fg); return false; }
+            if (/[a-zA-Z]/.test(val)) { showErr(err, fg, 'Letters are not allowed in Student Number.'); return false; }
+            clearErr(err, fg); markValid(fg); return true;
+        }
+
+        function vPassword(strict) {
+            const fg  = document.getElementById('fg-password');
+            const err = document.getElementById('passwordError');
+            const val = passwordInput.value;
+            if (!val) { strict ? showErr(err, fg, 'Please fill out this field.') : clearErr(err, fg); return false; }
+            clearErr(err, fg); markValid(fg);
+            /* Re-run confirm check live whenever password itself changes */
+            if (confirmPasswordInput.value) vConfirmPassword(false);
+            return true;
+        }
+
+        function vConfirmPassword(strict) {
+            const fg  = document.getElementById('fg-confirmPassword');
+            const err = document.getElementById('confirmPasswordError');
+            const val = confirmPasswordInput.value;
+            if (!val)                        { strict ? showErr(err, fg, 'Please fill out this field.') : clearErr(err, fg); return false; }
+            if (val !== passwordInput.value) { showErr(err, fg, 'Passwords do not match.'); return false; }
+            clearErr(err, fg); markValid(fg); return true;
+        }
+
+        /* ────────────────────────────────
+           Live feedback — clears errors
+           as the user types / corrects
+        ──────────────────────────────── */
+        firstNameInput .addEventListener('input', () => vFirstName(false));
+        lastNameInput  .addEventListener('input', () => vLastName(false));
+        studentNumInput.addEventListener('input', () => vStudentNum(false));
+        passwordInput  .addEventListener('input', () => vPassword(false));
+        confirmPasswordInput.addEventListener('input', () => vConfirmPassword(false));
+
+        emailInput.addEventListener('input', () => {
+            emailTaken = false;          // reset server flag on every keystroke
+            vEmail(false);
+        });
+
+        /* ────────────────────────────────
+           Email uniqueness (your existing
+           check_email.php endpoint)
+        ──────────────────────────────── */
+        emailInput.addEventListener('blur', async () => {
+            const val = emailInput.value.trim();
+            if (!val) return;
+            try {
+                const fd = new FormData();
+                fd.append('email', val);
+                const res  = await fetch('check_email.php', { method: 'POST', body: fd });
+                const data = await res.json();
+                const fg   = document.getElementById('fg-email');
+                const err  = document.getElementById('emailError');
+                if (data.exists) {
+                    emailTaken = true;
+                    showErr(err, fg, 'This email is already registered.');
+                } else {
+                    emailTaken = false;
+                    vEmail(false);       // re-run to clear any stale message
+                }
+            } catch { emailTaken = false; }
+        });
+
+        /* ────────────────────────────────
+           Submit handler
+        ──────────────────────────────── */
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (isSubmitting) return;
+
+            /* Final server-side email uniqueness check */
+            if (emailInput.value.trim()) {
+                try {
+                    const fd = new FormData();
+                    fd.append('email', emailInput.value.trim());
+                    const res  = await fetch('check_email.php', { method: 'POST', body: fd });
+                    const data = await res.json();
+                    emailTaken = !!data.exists;
+                } catch { emailTaken = false; }
+            }
+
+            /* Validate ALL fields simultaneously */
+            const allOk = [
+                vFirstName(true),
+                vLastName(true),
+                vEmail(true),
+                vStudentNum(true),
+                vPassword(true),
+                vConfirmPassword(true),
+            ].every(Boolean);
+
+            if (!allOk) {
+                /* Shake broken fields; scroll browser to the topmost one */
+                let firstBroken = null;
+                FIELDS.forEach(({ fgId }) => {
+                    const fg = document.getElementById(fgId);
+                    if (fg.classList.contains('val-has-error')) {
+                        triggerShake(fg);
+                        if (!firstBroken) firstBroken = fg;
+                    }
+                });
+                if (firstBroken) {
+                    firstBroken.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            /* All valid → submit */
+            isSubmitting     = true;
+            submitBtn.disabled    = true;
+            submitBtn.textContent = 'Creating account\u2026';
+            form.submit();
+        });
+
+        /* ────────────────────────────────
+           Confirm Password eye toggle
+           (mirrors the password toggle already
+            handled for #togglePassword in script.js)
+        ──────────────────────────────── */
+        const toggleConfirmBtn = document.getElementById('toggleConfirmPassword');
+        if (toggleConfirmBtn) {
+            toggleConfirmBtn.addEventListener('click', function () {
+                const isHidden = confirmPasswordInput.type === 'password';
+                confirmPasswordInput.type = isHidden ? 'text' : 'password';
+                /* Swap SVG paths to match the existing eye-open / eye-closed icons */
+                const svg = this.querySelector('svg');
+                if (svg) {
+                    if (isHidden) {
+                        /* Eye-open icon */
+                        svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+                    } else {
+                        /* Eye-off icon (original) */
+                        svg.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+                    }
+                }
+            });
+        }
+
+    })();
+    </script>
+
+</body>
+</html>
