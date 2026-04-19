@@ -3,7 +3,7 @@ session_start();
 require_once 'connect.php';
 
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true || !isset($_SESSION['is_super_admin']) || $_SESSION['is_super_admin'] !== true) {
-    header("Location: login.php");
+    header("Location: login.php ");
     exit;
 }
 
